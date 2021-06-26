@@ -1,0 +1,128 @@
+<html>
+<head>
+
+<style>
+body {
+margin: 0;
+padding: 0;
+width: 100%;
+}
+h1 {
+width: 100%;
+text-align: center;
+font-size:20px;
+margin:0;
+padding:0;
+background: #2C3E50;
+color: #FFF;
+display: inline-block;
+}
+h3 {
+width: 100%;
+text-align: center;
+font-size:15px;
+background: #EAEDED;
+margin:0;
+padding:0;
+display: inline-block;
+}
+table {
+border: 0px solid black;
+border-collapse: collapse;
+width: 100%;
+}
+</style>
+
+<script>
+
+var imgs = ["generaljobs", "userjobs", "userusage", "cpueff", "cpuefftime", "cpuload"]
+
+var index = 0;
+setInterval (function() {
+if (index === imgs.length) {
+  index = 0;
+}
+_time = Date.now();
+document.getElementById(imgs[index]).data = "plots/" + imgs[index] + ".html?" + _time;
+index++;
+} , 300000);
+
+var previous = "";
+setInterval(function() {
+    var ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4) {
+	    if (ajax.responseText != previous) {
+	        var fieldNameElement = document.getElementById('update');
+		previous = ajax.responseText;
+		fieldNameElement.textContent = ajax.getResponseHeader("Last-Modified");
+	    }
+        }
+    };
+    ajax.open("POST", "plots/userjobs.html", true);
+    ajax.send();
+}, 1000);
+
+</script>
+
+</head>
+
+<body>
+
+<table style="background-color:#2C3E50;color:#EAECEE;font-size:40px;text-align:center;">
+<tr><td>HTCondor LiteView</td></tr><tr><td style="font-size:15px;">
+Last update: <span id="update">..please wait..</span>
+<!--<script type="text/javascript">
+document.write(window.screen.width+'x'+window.screen.height)
+</script>-->
+</td></tr></table>
+
+<div id="generalinfo"><h1>General info</h1></div>
+
+<table><tr>
+<td>
+<object id="generaljobs" data="plots/generaljobs.html" style="width:700px;height:400px"></object>
+</td>
+<td>
+<object id="cpuefftime" data="plots/cpuefftime.html" style="width:700px;height:400px"></object>
+</td>
+</tr>
+</table>
+
+<div id="userinfo"><h1>User info</h1></div>
+
+<table><tr>
+<td>
+<object id="userjobs" data="plots/userjobs.html" style="width:700px;height:400px"></object>
+</td>
+<td>
+<object id="userusage" data="plots/userusage.html" style="width:700px;height:400px"></object>
+</td>
+</tr>
+</table>
+
+<div id="cpueff"><h1>CPU efficiency</h1></div>
+
+<script type="text/javascript">
+function resizeIframe(obj) {
+  obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+}
+</script>
+<!--marginheight="0" marginwidth="0"-->
+<iframe type="text/html" style="width:100%;" frameBorder="0"
+scrolling="no" onload="resizeIframe(this)" id="node" src="plots/cpueff.html"></iframe>
+
+<div id="cpuload"><h1>CPU load</h1></div>
+
+<script type="text/javascript">
+function resizeIframe(obj) {
+  obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+}
+</script>
+<!--marginheight="0" marginwidth="0"-->
+<iframe type="text/html" style="width:100%;" frameBorder="0"
+scrolling="no" onload="resizeIframe(this)" id="node" src="plots/cpuload.html"></iframe>
+
+</body>
+
+</html>
