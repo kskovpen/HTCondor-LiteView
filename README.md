@@ -6,8 +6,7 @@
 ![Plotly](https://img.shields.io/badge/Plotly-4.14.3-red.svg)
 
 A lightweight web-based framework to monitor the performance of the
-[HTCondor](https://github.com/htcondor/htcondor) cluster that can be installed in any web-accessible area
-without administration rights on the deployment machine.
+[HTCondor](https://github.com/htcondor/htcondor) cluster that can be installed in any web-accessible area.
 
 Installation:
 
