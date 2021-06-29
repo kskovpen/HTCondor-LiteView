@@ -30,8 +30,9 @@ def writeDB(con, cur, name, len):
     
     nentries = cur.execute('SELECT COUNT(*) FROM '+name).fetchone()[0]
 
+    query = 'DELETE FROM '+name+' where ts IN (SELECT ts from '+name+' order by ts ASC limit (?))'
     if nentries > options.max:
-        cur.execute('''DELETE FROM '+name+' where ts IN (SELECT ts from info order by ts ASC limit (?))''', [len])
+        cur.execute(''+query+'', [len])
 
     con.commit()
     con.close()    
