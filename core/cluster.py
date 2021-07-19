@@ -172,10 +172,11 @@ if __name__ == '__main__':
         name = cpuData[i][2]
         machineName = name.split('@')[-1]
         found = False
-        for sl in slots[machineName]:
-            if sl['fullname'] == name:
-                found = True
-                break
+        if machineName in slots:
+            for sl in slots[machineName]:
+                if sl['fullname'] == name:
+                    found = True
+                    break
         if not found: continue
         
         cpuUsage = float(cpuData[i][0])/float(cpuData[i][5]) # per cpu core
